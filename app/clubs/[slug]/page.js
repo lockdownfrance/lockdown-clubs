@@ -7,15 +7,17 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }) {
-  const club = clubs.find(c => c.slug === params.slug)
+  const { slug } = await params
+  const club = clubs.find(c => c.slug === slug)
   if (!club) return {}
   return {
     title: `${club.nom} de ${club.ville} — LOCKDOWN FRANCE`,
   }
 }
 
-export default function Page({ params }) {
-  const club = clubs.find(c => c.slug === params.slug)
+export default async function Page({ params }) {
+  const { slug } = await params
+  const club = clubs.find(c => c.slug === slug)
   if (!club) notFound()
   return <ClubPage club={club} />
 }
